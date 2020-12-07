@@ -24,7 +24,6 @@ namespace Day4InClass.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("ToDoConnection")));
 
-                // 
                 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
                 services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

@@ -24,10 +24,17 @@ namespace Day4InClass.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private IServiceProvider _serviceProvider;
 
-        public AuthController(IConfiguration config, UserManager<IdentityUser> userManager)
+        public AuthController(
+            IConfiguration config, 
+            UserManager<IdentityUser> userManager, 
+            SignInManager<IdentityUser> signInManager,
+            IServiceProvider serviceProvider)
         {
             _config = config;
             _userManager = userManager;
+            _signInManager = signInManager;
+            _serviceProvider = serviceProvider;
+
         }
 
         [HttpPost("Register")]

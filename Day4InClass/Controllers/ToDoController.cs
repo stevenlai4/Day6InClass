@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Day4InClass.Data;
 using Day4InClass.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,9 +23,19 @@ namespace Day4InClass.Controllers
             _db = db;
         }
 
+        // Since we have cookie authentication and Jwt authentication we must
+        // specify that we want Jwt authentication here.
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet]
         public IActionResult GetAll()
         {
+            // access the claim from the HttpContext
+            var claim = HttpContext.User.Claims.ElementAt(0);
+            // use the claim to get the aspnetusers username
+            string userName = claim.Value;
+            // aspnetusers id
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             try
             {
                 var todos = _db.ToDos.ToList();
